@@ -97,8 +97,10 @@
   </footer>
 
 <script>
+  let heatmapContainer = document.getElementById("heatmapContainer");
+
   let heatmapInstance = h337.create({
-    container: document.getElementById("heatmapContainer"),
+    container: heatmapContainer,
     radius: 40,
     maxOpacity: 0.6,
     minOpacity: 0.2,
@@ -110,27 +112,43 @@
   window.onload = async function () {
     await webgazer.setGazeListener(function (data, elapsedTime) {
       if (data == null) return;
-      gazeData.push({ x: data.x, y: data.y, value: 1 });
+      const x = Math.round(data.x);
+      const y = Math.round(data.y);
+      if (x > 0 && y > 0) {
+        gazeData.push({ x, y, value: 1 });
+      }
     }).begin();
+
+    // Oculta cámara para mejor experiencia
+    webgazer.showVideo(false).showFaceOverlay(false).showFaceFeedbackBox(false);
   };
 
   document.getElementById("stopTrackingBtn").addEventListener("click", function () {
     webgazer.end();
-    console.log("Seguimiento detenido");
-    console.log("Datos de mirada:", gazeData);
 
-    if (gazeData.length > 0) {
-      document.getElementById("heatmapContainer").style.display = "block";
-
-      heatmapInstance.setData({
-        max: 10,
-        data: gazeData
-      });
-
-      heatmapInstance.repaint();
-    } else {
+    if (gazeData.length === 0) {
       alert("No se recolectaron suficientes datos para generar el mapa de calor.");
+      return;
     }
+
+    // Asegura que el contenedor tenga el tamaño correcto
+    heatmapContainer.style.width = window.innerWidth + "px";
+    heatmapContainer.style.height = window.innerHeight + "px";
+    heatmapContainer.style.display = "block";
+
+    // Renderiza el mapa de calor
+    heatmapInstance.setData({
+      max: 10,
+      data: gazeData
+    });
+
+    // Forzar redibujado por seguridad
+    setTimeout(() => {
+      heatmapInstance.repaint();
+    }, 100);
+
+    console.log("Seguimiento detenido.");
+    console.log("Datos de mirada:", gazeData);
 
     this.disabled = true;
     this.textContent = "Seguimiento detenido";
