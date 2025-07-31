@@ -16,16 +16,16 @@ Este proyecto es un portafolio web responsivo, accesible e inclusivo, que integr
 
 ## 🔁 Mejoras agregadas - Laboratorio 10 (Seguimiento Ocular + Mapa de Calor)
 
-- 🔸 **Integración de WebGazer.js**: seguimiento ocular a través de la cámara del usuario.
-- 🔸 **Integración de Heatmap.js**: visualización de zonas más observadas con un mapa de calor.
-- 🔸 **Registro de puntos de mirada** en tiempo real mientras el usuario navega por el sitio.
-- 🔸 **Botón para detener seguimiento** y mostrar resultados (presente en todas las vistas).
-- 🔸 **Mapa de calor superpuesto** una vez finalizado el seguimiento.
-- 🔸 Mejora progresiva no invasiva: si el usuario no permite cámara, el sitio funciona normalmente.
-- 🔸 Estilos integrados de forma accesible, con foco visual y diseño adaptable.
+-  **Integración de WebGazer.js**: seguimiento ocular a través de la cámara del usuario.
+-  **Integración de Heatmap.js**: visualización de zonas más observadas con un mapa de calor.
+-  **Registro de puntos de mirada** en tiempo real mientras el usuario navega por el sitio.
+-  **Botón para detener seguimiento** y mostrar resultados (presente en todas las vistas).
+-  **Mapa de calor superpuesto** una vez finalizado el seguimiento.
+-  **Mejora progresiva no invasiva: si el usuario no permite cámara, el sitio funciona normalmente.
+-  **Estilos integrados de forma accesible, con foco visual y diseño adaptable.
 
-📌 **Mapa de calor desplegado en cada página del portafolio**: `index.html`, `acerca.html`, `contacto.html`, `proyectos.html` y `skills.html`.  
-📸 *(Se recomienda adjuntar una captura de pantalla del heatmap al momento de entrega si lo solicita el docente).*
+**Mapa de calor desplegado en cada página del portafolio**: `index.html`, `acerca.html`, `contacto.html`, `proyectos.html` y `skills.html`.  
+
 
 ---
 
