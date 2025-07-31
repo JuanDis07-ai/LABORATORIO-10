@@ -21,8 +21,8 @@ Este proyecto es un portafolio web responsivo, accesible e inclusivo, que integr
 -  **Registro de puntos de mirada** en tiempo real mientras el usuario navega por el sitio.
 -  **Botón para detener seguimiento** y mostrar resultados (presente en todas las vistas).
 -  **Mapa de calor superpuesto** una vez finalizado el seguimiento.
--  **Mejora progresiva no invasiva: si el usuario no permite cámara, el sitio funciona normalmente.
--  **Estilos integrados de forma accesible, con foco visual y diseño adaptable.
+-  Mejora progresiva no invasiva: si el usuario no permite cámara, el sitio funciona normalmente.
+-  Estilos integrados de forma accesible, con foco visual y diseño adaptable.
 
 **Mapa de calor desplegado en cada página del portafolio**: `index.html`, `acerca.html`, `contacto.html`, `proyectos.html` y `skills.html`.  
 
