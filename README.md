@@ -4,7 +4,7 @@ https://github.com/JuanDis07-ai/LABORATORIO-8
 
 ## ENLACE GITHUB PAGES
 
-https://juandis07-ai.github.io/LABORATORIO-8/
+https://juandis07-ai.github.io/LABORATORIO-10
 
 ## EXPLICACIÓN DE LAS MEJORAS Y CAMBIOS
 
