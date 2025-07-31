@@ -10,7 +10,7 @@ https://juandis07-ai.github.io/LABORATORIO-8/
 
 # Portafolio Web – Juan Diego Cueva
 
-Este portafolio incluye mejoras específicas de **accesibilidad y diseño inclusivo**, aplicadas para garantizar una experiencia clara, usable y comprensible para todas las personas, incluyendo aquellas con discapacidades.
+Este proyecto es un portafolio web responsivo, accesible e inclusivo, que integra tecnologías de seguimiento ocular para visualizar las zonas más observadas por el usuario mediante un mapa de calor.
 
 ---
 
