@@ -122,58 +122,64 @@
   </footer>
 
 <script>
-  let heatmapContainer = document.getElementById("heatmapContainer");
+  const heatmapContainer = document.getElementById("heatmapContainer");
 
-  let heatmapInstance = h337.create({
+  const heatmapInstance = h337.create({
     container: heatmapContainer,
-    radius: 40,
-    maxOpacity: 0.6,
+    radius: 60,
+    maxOpacity: 0.7,
     minOpacity: 0.2,
     blur: 0.85
   });
 
-  let gazeData = [];
+  const gazeData = [];
 
   window.onload = async function () {
     await webgazer.setGazeListener(function (data, elapsedTime) {
-      if (data == null) return;
-      const x = Math.round(data.x);
-      const y = Math.round(data.y);
-      if (x > 0 && y > 0) {
-        gazeData.push({ x, y, value: 1 });
+      if (data) {
+        const x = Math.round(data.x);
+        const y = Math.round(data.y);
+        if (x > 0 && y > 0) {
+          gazeData.push({ x: x, y: y, value: 1 });
+        }
       }
     }).begin();
 
-    // Oculta cámara para mejor experiencia
-    webgazer.showVideo(false).showFaceOverlay(false).showFaceFeedbackBox(false);
+    webgazer
+      .showVideoPreview(false)
+      .showPredictionPoints(true)
+      .showFaceOverlay(false)
+      .showFaceFeedbackBox(false);
   };
 
   document.getElementById("stopTrackingBtn").addEventListener("click", function () {
     webgazer.end();
 
     if (gazeData.length === 0) {
-      alert("No se recolectaron suficientes datos para generar el mapa de calor.");
+      alert("No se recolectaron datos suficientes para generar el mapa de calor.");
       return;
     }
 
-    // Asegura que el contenedor tenga el tamaño correcto
+    // Forzar visibilidad del contenedor
     heatmapContainer.style.width = window.innerWidth + "px";
     heatmapContainer.style.height = window.innerHeight + "px";
     heatmapContainer.style.display = "block";
 
-    // Renderiza el mapa de calor
+    // Forzar limpieza previa
+    heatmapInstance.setData({ max: 0, data: [] });
+
+    // Pintar mapa con nuevos datos
     heatmapInstance.setData({
       max: 10,
       data: gazeData
     });
 
-    // Forzar redibujado por seguridad
+    // Forzar repintado luego de un retraso
     setTimeout(() => {
       heatmapInstance.repaint();
-    }, 100);
+    }, 200);
 
-    console.log("Seguimiento detenido.");
-    console.log("Datos de mirada:", gazeData);
+    console.log("Seguimiento detenido. Datos recolectados:", gazeData);
 
     this.disabled = true;
     this.textContent = "Seguimiento detenido";
