@@ -1,6 +1,6 @@
 ## LINK CODIGO FUENTE
 
-https://github.com/JuanDis07-ai/LABORATORIO-8
+https://github.com/JuanDis07-ai/LABORATORIO-10
 
 ## ENLACE GITHUB PAGES
 
