@@ -105,35 +105,47 @@
     </div>
   </footer>
 
-  <script>
-    let heatmapInstance = h337.create({
-      container: document.getElementById("heatmapContainer"),
-      radius: 40,
-      maxOpacity: 0.6,
-      minOpacity: 0.2,
-      blur: 0.85
-    });
+<script>
+  let heatmapInstance = h337.create({
+    container: document.getElementById("heatmapContainer"),
+    radius: 40,
+    maxOpacity: 0.6,
+    minOpacity: 0.2,
+    blur: 0.85
+  });
 
-    let gazeData = [];
+  let gazeData = [];
 
-    window.onload = async function () {
-      await webgazer.setGazeListener(function (data, elapsedTime) {
-        if (data == null) return;
-        gazeData.push({ x: data.x, y: data.y, value: 1 });
-      }).begin();
-    };
+  window.onload = async function () {
+    await webgazer.setGazeListener(function (data, elapsedTime) {
+      if (data == null) return;
+      gazeData.push({ x: data.x, y: data.y, value: 1 });
+    }).begin();
+  };
 
-    document.getElementById("stopTrackingBtn").addEventListener("click", function () {
-      webgazer.end(); // detener seguimiento
-      document.getElementById("heatmapContainer").style.display = "block"; // mostrar mapa
+  document.getElementById("stopTrackingBtn").addEventListener("click", function () {
+    webgazer.end();
+    console.log("Seguimiento detenido");
+    console.log("Datos de mirada:", gazeData);
+
+    if (gazeData.length > 0) {
+      document.getElementById("heatmapContainer").style.display = "block";
+
       heatmapInstance.setData({
         max: 10,
         data: gazeData
       });
-      this.disabled = true;
-      this.textContent = "Seguimiento detenido";
-    });
-  </script>
+
+      heatmapInstance.repaint();
+    } else {
+      alert("No se recolectaron suficientes datos para generar el mapa de calor.");
+    }
+
+    this.disabled = true;
+    this.textContent = "Seguimiento detenido";
+  });
+</script>
+
 </body>
 
 </html>
