@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Proyectos - Juan Diego Cueva</title>
   <link rel="stylesheet" href="css/style.css" />
 
-  <!-- WebGazer -->
+  <!-- WebGazer & Heatmap -->
   <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
-  <!-- Heatmap.js -->
   <script src="https://cdn.jsdelivr.net/npm/heatmapjs@2.0.2/heatmap.min.js"></script>
+
   <style>
     #heatmapContainer {
       position: absolute;
       top: 0;
       left: 0;
       z-index: 9999;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
       display: none;
     }
@@ -107,71 +106,56 @@
     </div>
   </footer>
 
-<script>
-  const heatmapContainer = document.getElementById("heatmapContainer");
+  <script>
+    const heatmapContainer = document.getElementById("heatmapContainer");
+    const stopBtn = document.getElementById("stopTrackingBtn");
+    const gazeData = [];
 
-  const heatmapInstance = h337.create({
-    container: heatmapContainer,
-    radius: 60,
-    maxOpacity: 0.7,
-    minOpacity: 0.2,
-    blur: 0.85
-  });
-
-  const gazeData = [];
-
-  window.onload = async function () {
-    await webgazer.setGazeListener(function (data, elapsedTime) {
-      if (data) {
-        const x = Math.round(data.x);
-        const y = Math.round(data.y);
-        if (x > 0 && y > 0) {
-          gazeData.push({ x: x, y: y, value: 1 });
-        }
-      }
-    }).begin();
-
-    webgazer
-      .showVideoPreview(false)
-      .showPredictionPoints(true)
-      .showFaceOverlay(false)
-      .showFaceFeedbackBox(false);
-  };
-
-  document.getElementById("stopTrackingBtn").addEventListener("click", function () {
-    webgazer.end();
-
-    if (gazeData.length === 0) {
-      alert("No se recolectaron datos suficientes para generar el mapa de calor.");
-      return;
-    }
-
-    // Forzar visibilidad del contenedor
-    heatmapContainer.style.width = window.innerWidth + "px";
-    heatmapContainer.style.height = window.innerHeight + "px";
-    heatmapContainer.style.display = "block";
-
-    // Forzar limpieza previa
-    heatmapInstance.setData({ max: 0, data: [] });
-
-    // Pintar mapa con nuevos datos
-    heatmapInstance.setData({
-      max: 10,
-      data: gazeData
+    const heatmap = h337.create({
+      container: heatmapContainer,
+      radius: 60,
+      maxOpacity: 0.8,
+      minOpacity: 0.2,
+      blur: 0.85
     });
 
-    // Forzar repintado luego de un retraso
-    setTimeout(() => {
-      heatmapInstance.repaint();
-    }, 200);
+    window.onload = async function () {
+      await webgazer.setGazeListener((data) => {
+        if (data) {
+          const x = Math.round(data.x);
+          const y = Math.round(data.y);
+          if (x >= 0 && y >= 0 && x <= window.innerWidth && y <= window.innerHeight) {
+            gazeData.push({ x: x, y: y, value: 1 });
+          }
+        }
+      }).begin();
 
-    console.log("Seguimiento detenido. Datos recolectados:", gazeData);
+      webgazer
+        .showVideoPreview(true)
+        .showPredictionPoints(true)
+        .showFaceOverlay(true)
+        .showFaceFeedbackBox(true);
+    };
 
-    this.disabled = true;
-    this.textContent = "Seguimiento detenido";
-  });
-</script>
+    stopBtn.addEventListener("click", function () {
+      webgazer.end();
 
+      if (gazeData.length < 10) {
+        alert("No se recolectaron suficientes datos para generar el mapa de calor.");
+        return;
+      }
+
+      heatmapContainer.style.display = "block";
+
+      heatmap.setData({
+        max: 10,
+        data: gazeData
+      });
+
+      console.log("Mapa generado con", gazeData.length, "puntos.");
+      this.disabled = true;
+      this.textContent = "Seguimiento detenido";
+    });
+  </script>
 </body>
-
 </html>
